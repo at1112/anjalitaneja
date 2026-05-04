@@ -7,10 +7,10 @@ const photos = [
 ];
 
 const coverage = [
-  { publication: "a",        headline: "a",     url: "#" },
-  { publication: "b",    headline: "b",                         url: "#" },
-  { publication: "c",              headline: "c",  url: "#" },
-  { publication: "d", headline: "d", url: "#" },
+  // { publication: "a",        headline: "a",     url: "#" },
+  //  { publication: "b",    headline: "b",                         url: "#" },
+  //  { publication: "c",              headline: "c",  url: "#" },
+  //  { publication: "d", headline: "d", url: "#" },
 ];
 
 function SectionLabel({ children }: { children: string }) {
