@@ -11,7 +11,7 @@ const songs = [
     coverColor: "#c4956a",
     coverGradient: "linear-gradient(135deg, #c4956a 0%, #a07050 100%)",
     story: "A",
-    spotifyUrl: "https://open.spotify.com/",
+    spotifyUrl: "https://open.spotify.com/track/2acl3sdl3Pdp4LUw72nol1",
   },
   {
     id: "golden-linings",
@@ -20,7 +20,7 @@ const songs = [
     coverColor: "#d4a855",
     coverGradient: "linear-gradient(135deg, #d4a855 0%, #b88830 100%)",
     story: "B",
-    spotifyUrl: "https://open.spotify.com/",
+    spotifyUrl: "https://open.spotify.com/track/6hm4HEbg2VQGmRubQC7Ly3",
   },
   {
     id: "forever-you",
@@ -29,8 +29,8 @@ const songs = [
     coverColor: "#8b6944",
     coverGradient: "linear-gradient(135deg, #8b6944 0%, #6a5030 100%)",
     story: "C",
-    spotifyUrl: "https://open.spotify.com/",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    spotifyUrl: "https://open.spotify.com/track/4bUxpM2lK4xzMrqFxS8wGi",
+    videoUrl: "https://www.youtube.com/watch?v=CkdaoWhwkLY",
   },
 ];
 
