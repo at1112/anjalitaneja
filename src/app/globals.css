@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f0e8d4;
+  --foreground: #2a1808;
+  --accent: #b82020;
+  --border: #c8b070;
+  --nav-bg: #e4d4a0;
+  --surface: #e8dcb8;
+  --muted: #8a7448;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-nav-bg: var(--nav-bg);
+  --color-muted: var(--muted);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { background-color: var(--background); }
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Inter, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* responsive station grid */
+.station-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+@media (max-width: 480px) {
+  .station-grid { grid-template-columns: 1fr; }
+}
+
+/* responsive song cards */
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+@media (max-width: 600px) {
+  .song-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+}
+@media (max-width: 380px) {
+  .song-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+/* cassette reel spin — CSS animation is GPU-accelerated and works in Safari */
+@keyframes reel-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
