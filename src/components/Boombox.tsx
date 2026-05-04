@@ -136,7 +136,7 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
     <div className="w-full max-w-2xl mx-auto select-none"
          style={{ filter: "drop-shadow(0 18px 48px rgba(42,24,8,0.35))" }}>
     <svg viewBox="0 0 660 430" xmlns="http://www.w3.org/2000/svg"
-      style={{ width: "100%", display: "block" }}>
+      style={{ width: "100%", display: "block", touchAction: "none" }}>
       <defs>
         {/* ── Body gradients ── */}
         <linearGradient id="bodyFront" x1="0" y1="0" x2="0" y2="1">
@@ -511,7 +511,9 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
       {(["◀◀","◀","▶","▶▶","■"] as const).map((label, i) => {
         const pressed = pressedBtn === i;
         const dy = pressed ? 2 : 0;
-        const handlers = [
+        // onClick works in all browsers including Safari on SVG elements;
+        // onPointerDown/Up are only for the visual press state, no setPointerCapture needed
+        const actions = [
           () => { onPrev?.(); onPrev?.(); },
           () => onPrev?.(),
           () => onPlay?.(),
@@ -520,7 +522,8 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
         ];
         return (
           <g key={i} style={{ cursor: "pointer" }}
-            onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setPressed(i); handlers[i]?.(); }}
+            onClick={() => actions[i]?.()}
+            onPointerDown={() => setPressed(i)}
             onPointerUp={() => setPressed(null)}
             onPointerLeave={() => setPressed(null)}
           >

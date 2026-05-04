@@ -20,11 +20,18 @@ const songLinks: Record<string, { spotify: string; apple: string }> = {
   },
 };
 
+// ─── Add audioUrl once you drop .mp3 files into /public/audio/ ───────────
+const tracks = {
+  goldenLinings: { title: "Golden Linings", artist: "Anjali Taneja", audioUrl: "" /* "/audio/golden-linings.mp3" */ },
+  mySide:        { title: "My Side",        artist: "Anjali Taneja", audioUrl: "" /* "/audio/my-side.mp3" */ },
+  foreverYou:    { title: "Forever You",    artist: "Anjali Taneja", audioUrl: "" /* "/audio/forever-you.mp3" */ },
+};
+
 const stations = [
-  { id: "nostalgic", name: "nostalgic",  desc: "throwback, warmth, memory",   freq: "88.7 FM", freqNum: 88.7, tracks: [{ title: "Golden Linings", artist: "Anjali Taneja" }, { title: "My Side", artist: "Anjali Taneja" }, { title: "Forever You", artist: "Anjali Taneja" }] },
-  { id: "alt-rnb",   name: "alt r&b",    desc: "moody, slow burn, layered",   freq: "91.3 FM", freqNum: 91.3, tracks: [{ title: "My Side", artist: "Anjali Taneja" }, { title: "Golden Linings", artist: "Anjali Taneja" }, { title: "Forever You", artist: "Anjali Taneja" }] },
-  { id: "soul",      name: "soul",        desc: "raw, felt, electric",          freq: "94.5 FM", freqNum: 94.5, tracks: [{ title: "Forever You", artist: "Anjali Taneja" }, { title: "My Side", artist: "Anjali Taneja" }, { title: "Golden Linings", artist: "Anjali Taneja" }] },
-  { id: "punjabi",   name: "punjabi",     desc: "roots, desi, home",            freq: "97.1 FM", freqNum: 97.1, tracks: [{ title: "My Side", artist: "Anjali Taneja" }, { title: "Forever You", artist: "Anjali Taneja" }, { title: "Golden Linings", artist: "Anjali Taneja" }] },
+  { id: "nostalgic", name: "nostalgic", desc: "throwback, warmth, memory",  freq: "88.7 FM", freqNum: 88.7, tracks: [tracks.goldenLinings, tracks.mySide,        tracks.foreverYou]  },
+  { id: "alt-rnb",   name: "alt r&b",   desc: "moody, slow burn, layered",  freq: "91.3 FM", freqNum: 91.3, tracks: [tracks.mySide,        tracks.goldenLinings, tracks.foreverYou]  },
+  { id: "soul",      name: "soul",       desc: "raw, felt, electric",         freq: "94.5 FM", freqNum: 94.5, tracks: [tracks.foreverYou,    tracks.mySide,        tracks.goldenLinings] },
+  { id: "punjabi",   name: "punjabi",    desc: "roots, desi, home",           freq: "97.1 FM", freqNum: 97.1, tracks: [tracks.mySide,        tracks.foreverYou,    tracks.goldenLinings] },
 ];
 
 const FREQ_MIN = 87.5;
@@ -61,33 +68,62 @@ function AppleIcon() {
 
 export default function RadioPage() {
   const [activeStation, setActiveStation] = useState(stations[0]);
-  const [playing, setPlaying]   = useState(false);
+  const [playing, setPlaying]       = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress]     = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const rafRef   = useRef<number>(0);
-  const startRef = useRef<number>(0);
-  const trackDuration = 180;
 
+  const currentTrack = activeStation.tracks[trackIndex];
+
+  // ── Wire up audio element events (timeupdate + ended) ──────────────────
   useEffect(() => {
-    if (!playing) { cancelAnimationFrame(rafRef.current); return; }
-    startRef.current = performance.now() - progress * trackDuration * 1000;
-    const tick = (now: number) => {
-      const elapsed = (now - startRef.current) / 1000;
-      const p = Math.min(elapsed / trackDuration, 1);
+    const audio = audioRef.current;
+    if (!audio) return;
+    const onTime  = () => { if (audio.duration) setProgress(audio.currentTime / audio.duration); };
+    const onEnded = () => { setTrackIndex(i => (i + 1) % activeStation.tracks.length); setProgress(0); };
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("ended", onEnded);
+    return () => { audio.removeEventListener("timeupdate", onTime); audio.removeEventListener("ended", onEnded); };
+  }, [activeStation]);
+
+  // ── Load + play/pause real audio when track or playing changes ──────────
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentTrack.audioUrl) return;
+    if (audio.src !== window.location.origin + currentTrack.audioUrl) {
+      audio.src = currentTrack.audioUrl;
+      audio.load();
+    }
+    if (playing) audio.play().catch(() => {});
+    else audio.pause();
+  }, [playing, currentTrack]);
+
+  // ── Fake progress timer — only runs when there's no audio file ──────────
+  useEffect(() => {
+    if (!playing || currentTrack.audioUrl) { cancelAnimationFrame(rafRef.current); return; }
+    const start = performance.now() - progress * 180000;
+    const tick  = (now: number) => {
+      const p = Math.min((now - start) / 180000, 1);
       setProgress(p);
-      if (p < 1) { rafRef.current = requestAnimationFrame(tick); }
-      else { setTrackIndex((i) => (i + 1) % activeStation.tracks.length); setProgress(0); startRef.current = performance.now(); rafRef.current = requestAnimationFrame(tick); }
+      if (p >= 1) { setTrackIndex(i => (i + 1) % activeStation.tracks.length); setProgress(0); }
+      rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [playing, activeStation]);
+  }, [playing, currentTrack, activeStation]);
 
-  const handleStation = (s: typeof stations[number]) => { setActiveStation(s); setTrackIndex(0); setProgress(0); setPlaying(true); };
-  const currentTrack = activeStation.tracks[trackIndex];
+  const handleStation = (s: typeof stations[number]) => {
+    setActiveStation(s); setTrackIndex(0); setProgress(0); setPlaying(true);
+    const audio = audioRef.current;
+    if (audio) { audio.pause(); audio.src = ""; }
+  };
   const links = songLinks[currentTrack.title];
 
   return (
     <main style={{ paddingBottom: "7rem" }}>
+      {/* Hidden audio element — src is set dynamically when audioUrl is provided */}
+      <audio ref={audioRef} preload="metadata" />
       {/* Boombox */}
       <section style={{ paddingTop: "2.5rem", paddingBottom: "0.5rem", paddingInline: "2rem" }}>
         <div style={{ maxWidth: "40rem", margin: "0 auto" }}>
