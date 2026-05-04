@@ -6,11 +6,8 @@ const photos = [
   { src: "/images/press-3.jpg", gradient: "linear-gradient(160deg, #a8906a 0%, #7a6040 100%)", rot: -0.5 },
 ];
 
-const coverage = [
-  // { publication: "a",        headline: "a",     url: "#" },
-  //  { publication: "b",    headline: "b",                         url: "#" },
-  //  { publication: "c",              headline: "c",  url: "#" },
-  //  { publication: "d", headline: "d", url: "#" },
+const coverage: { publication: string; headline: string; url: string }[] = [
+  // { publication: "Publication", headline: "Headline quote here", url: "https://..." },
 ];
 
 function SectionLabel({ children }: { children: string }) {
