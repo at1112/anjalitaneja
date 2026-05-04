@@ -96,7 +96,7 @@ export default function PressPage() {
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.6")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
             >
-              hello@anjalitaneja.com
+              mgmt.anjali@gmail.com
             </a>
           </div>
         </div>
