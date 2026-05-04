@@ -7,16 +7,16 @@ import Boombox from "@/components/Boombox";
 // ─── Replace each value with the direct track URL when ready ──────────────
 const songLinks: Record<string, { spotify: string; apple: string }> = {
   "Golden Linings": {
-    spotify: "https://open.spotify.com/artist/1A7CIDrLklSiVgGJjdhdDX",
-    apple:   "https://music.apple.com/us/artist/anjali-taneja/1264329314",
+    spotify: "https://open.spotify.com/track/6hm4HEbg2VQGmRubQC7Ly3",
+    apple:   "https://music.apple.com/us/album/golden-linings/1711174533?i=1711174537",
   },
   "My Side": {
-    spotify: "https://open.spotify.com/artist/1A7CIDrLklSiVgGJjdhdDX",
-    apple:   "https://music.apple.com/us/artist/anjali-taneja/1264329314",
+    spotify: "https://open.spotify.com/track/2acl3sdl3Pdp4LUw72nol1",
+    apple:   "https://music.apple.com/us/album/my-side-single/1711174497",
   },
   "Forever You": {
-    spotify: "https://open.spotify.com/artist/1A7CIDrLklSiVgGJjdhdDX",
-    apple:   "https://music.apple.com/us/artist/anjali-taneja/1264329314",
+    spotify: "https://open.spotify.com/track/4bUxpM2lK4xzMrqFxS8wGi",
+    apple:   "https://music.apple.com/us/album/forever-you-single/1707861861",
   },
 };
 
@@ -25,13 +25,15 @@ const tracks = {
   goldenLinings: { title: "Golden Linings", artist: "Anjali Taneja", audioUrl: "" /* "/audio/golden-linings.mp3" */ },
   mySide:        { title: "My Side",        artist: "Anjali Taneja", audioUrl: "" /* "/audio/my-side.mp3" */ },
   foreverYou:    { title: "Forever You",    artist: "Anjali Taneja", audioUrl: "" /* "/audio/forever-you.mp3" */ },
+  Keepsake:      { title: "Keepsake",       artist: "Anjali Taneja", audioUrl: "" /* "/audio/keepsake.mp3" */ },
+  
 };
 
 const stations = [
-  { id: "nostalgic", name: "nostalgic", desc: "throwback, warmth, memory",  freq: "88.7 FM", freqNum: 88.7, tracks: [tracks.goldenLinings, tracks.mySide,        tracks.foreverYou]  },
-  { id: "alt-rnb",   name: "alt r&b",   desc: "moody, slow burn, layered",  freq: "91.3 FM", freqNum: 91.3, tracks: [tracks.mySide,        tracks.goldenLinings, tracks.foreverYou]  },
-  { id: "soul",      name: "soul",       desc: "raw, felt, electric",         freq: "94.5 FM", freqNum: 94.5, tracks: [tracks.foreverYou,    tracks.mySide,        tracks.goldenLinings] },
-  { id: "punjabi",   name: "punjabi",    desc: "roots, desi, home",           freq: "97.1 FM", freqNum: 97.1, tracks: [tracks.mySide,        tracks.foreverYou,    tracks.goldenLinings] },
+  { id: "nostalgic", name: "nostalgic", desc: "warmth, memory",  freq: "88.7 FM", freqNum: 88.7, tracks: [tracks.goldenLinings, tracks.mySide,        tracks.foreverYou]  },
+  { id: "alt-rnb",   name: "alt r&b",   desc: "♡",  freq: "91.3 FM", freqNum: 91.3, tracks: [tracks.mySide,        tracks.goldenLinings, tracks.foreverYou]  },
+  { id: "soul",      name: "soul",       desc: "",         freq: "94.5 FM", freqNum: 94.5, tracks: [tracks.foreverYou,    tracks.mySide,        tracks.goldenLinings] },
+  { id: "punjabi",   name: "punjabi",    desc: "",           freq: "97.1 FM", freqNum: 97.1, tracks: [tracks.mySide,        tracks.foreverYou,    tracks.goldenLinings] },
 ];
 
 const FREQ_MIN = 87.5;
