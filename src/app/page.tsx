@@ -22,12 +22,11 @@ const songLinks: Record<string, { spotify: string; apple: string }> = {
 
 // ─── Add audioUrl once you drop .mp3 files into /public/audio/ ───────────
 const tracks = {
-  goldenLinings: { title: "Golden Linings", artist: "Anjali Taneja", audioUrl: "" /* "/audio/golden-linings.mp3" */ },
-  mySide:        { title: "My Side",        artist: "Anjali Taneja", audioUrl: "" /* "/audio/my-side.mp3" */ },
-  foreverYou:    { title: "Forever You",    artist: "Anjali Taneja", audioUrl: "" /* "/audio/forever-you.mp3" */ },
-  keepsake:      { title: "Keepsake",       artist: "Anjali Taneja", audioUrl: "" /* "/audio/keepsake.mp3" */ },
-  jindMahi:      { title: "Jind Mahi",       artist: "Anjali Taneja", audioUrl: "" /* "/audio/jind-mahi.mp3" */ },
-  
+  goldenLinings: { title: "Golden Linings", artist: "Anjali Taneja", audioUrl: "/audio/golden-linings.mp3" },
+  mySide:        { title: "My Side",        artist: "Anjali Taneja", audioUrl: "/audio/my-side.mp3" },
+  foreverYou:    { title: "Forever You",    artist: "Anjali Taneja", audioUrl: "/audio/forever-you.mp3" },
+  keepsake:      { title: "Keepsake",       artist: "Anjali Taneja", audioUrl: "/audio/keepsake.mp3" },
+  jindMahi:      { title: "Jind Mahi",      artist: "Anjali Taneja", audioUrl: "/audio/jind-mahi.mp3" },
 };
 
 const stations = [
