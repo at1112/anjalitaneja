@@ -541,62 +541,64 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
       </div>{/* end filter div */}
 
       {/* ══════════════════════════════════════════════════════════════
-          HTML OVERLAYS — absolutely positioned over the SVG.
-          Plain HTML divs work perfectly in Safari; SVG event handlers do not.
+          HTML OVERLAYS — absolutely positioned directly in the wrapper.
+          No pointer-events:none parent wrapper — Safari doesn't reliably
+          fire events on children of pointer-events:none elements.
+          Each overlay is a direct child of the position:relative wrapper.
           Coords: left = svgX/VB_W*100%, top = svgY/VB_H*100%
           ══════════════════════════════════════════════════════════════ */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
 
-        {/* ── Knob hit areas (drag up/down to change value) ── */}
-        {KNOB_DEFS.map(def => (
-          <div
-            key={def.key}
-            style={{
-              position: "absolute",
-              left:   `${(def.cx - 14) / VB_W * 100}%`,
-              top:    `${(def.cy - 14) / VB_H * 100}%`,
-              width:  `${28 / VB_W * 100}%`,
-              height: `${28 / VB_H * 100}%`,
-              cursor: "ns-resize",
-              pointerEvents: "all",
-              touchAction: "none",
-              WebkitTapHighlightColor: "transparent",
-            } as React.CSSProperties}
-            onMouseDown={(e) => {
-              e.preventDefault();
-              startKnobDrag(def.key, knobs[def.key], e.clientY);
-            }}
-            onTouchStart={(e) => {
-              e.preventDefault();
-              startKnobDrag(def.key, knobs[def.key], e.touches[0].clientY);
-            }}
-          />
-        ))}
+      {/* ── Knob hit areas (drag up/down to change value) ── */}
+      {KNOB_DEFS.map(def => (
+        <div
+          key={`knob-overlay-${def.key}`}
+          style={{
+            position: "absolute",
+            left:            `${(def.cx - 14) / VB_W * 100}%`,
+            top:             `${(def.cy - 14) / VB_H * 100}%`,
+            width:           `${28 / VB_W * 100}%`,
+            height:          `${28 / VB_H * 100}%`,
+            cursor:          "ns-resize",
+            touchAction:     "none",
+            background:      "rgba(0,0,0,0)",
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            WebkitTapHighlightColor: "transparent" as any,
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            startKnobDrag(def.key, knobs[def.key], e.clientY);
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            startKnobDrag(def.key, knobs[def.key], e.touches[0].clientY);
+          }}
+        />
+      ))}
 
-        {/* ── Transport button hit areas ── */}
-        {([0,1,2,3,4] as const).map((i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left:   `${(269 + i * 24) / VB_W * 100}%`,
-              top:    `${303 / VB_H * 100}%`,
-              width:  `${24 / VB_W * 100}%`,
-              height: `${20 / VB_H * 100}%`,
-              cursor: "pointer",
-              pointerEvents: "all",
-              touchAction: "manipulation",
-              WebkitTapHighlightColor: "transparent",
-            } as React.CSSProperties}
-            onMouseDown={() => setPressed(i)}
-            onMouseUp={() => { setPressed(null); btnActions[i]?.(); }}
-            onMouseLeave={() => setPressed(null)}
-            onTouchStart={(e) => { e.preventDefault(); setPressed(i); }}
-            onTouchEnd={(e) => { e.preventDefault(); setPressed(null); btnActions[i]?.(); }}
-          />
-        ))}
-
-      </div>{/* end overlays */}
+      {/* ── Transport button hit areas ── */}
+      {[0, 1, 2, 3, 4].map((i) => (
+        <div
+          key={`btn-overlay-${i}`}
+          style={{
+            position: "absolute",
+            left:        `${(269 + i * 24) / VB_W * 100}%`,
+            top:         `${303 / VB_H * 100}%`,
+            width:       `${24 / VB_W * 100}%`,
+            height:      `${20 / VB_H * 100}%`,
+            cursor:      "pointer",
+            touchAction: "manipulation",
+            background:  "rgba(0,0,0,0)",
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            WebkitTapHighlightColor: "transparent" as any,
+          }}
+          onMouseDown={() => setPressed(i)}
+          onMouseUp={() => setPressed(null)}
+          onMouseLeave={() => setPressed(null)}
+          onClick={() => btnActions[i]?.()}
+          onTouchStart={(e) => { e.preventDefault(); setPressed(i); }}
+          onTouchEnd={(e) => { e.preventDefault(); setPressed(null); btnActions[i]?.(); }}
+        />
+      ))}
 
     </div>
   );
