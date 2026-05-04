@@ -124,7 +124,7 @@ export default function AboutPage() {
                     <div style={{ fontSize: "0.8125rem", lineHeight: 1.85, fontWeight: 300, opacity: 0.65, display: "flex", flexDirection: "column", gap: "0.8rem" }}>
                     <p style={{ margin: 0 }}>Anjali Taneja blends jazz-trained musicianship with vintage soul and modern R&B. Based in New York City, her sound is defined by velvety vocals, emotional storytelling, and a refined musical sensibility.</p>
                     <p style={{ margin: 0 }}>Drawing inspiration from Etta James to Sade, Anjali creates music that feels both timeless and deeply personal. Her recent releases, including &ldquo;Forever You,&rdquo; &ldquo;Keepsake,&rdquo; and &ldquo;Golden Linings&rdquo; build a rich, immersive sonic world.</p>
-                    <p style={{ margin: 0 }}>She first gained attention with &ldquo;Only Love&rdquo; alongside Pav Dharia, and has since landed on major Spotify editorial playlists like Fresh Finds and New Music Friday. With over 1M streams and a steadily growing audience, Anjali has performed at iconic venues including Terminal 5 and the Kennedy Center Millennium Stage, and toured with Red Baraat.</p>
+                    <p style={{ margin: 0 }}> With over 1M streams and a steadily growing audience, Anjali has performed at iconic venues including Terminal 5 and the Kennedy Center Millennium Stage, and toured with Red Baraat.</p>
                     <p style={{ margin: 0 }}>Anjali is building a sonic and visual world rooted in identity, nostalgia, and emotional depth, inviting listeners to step inside and grow with her as the story unfolds.</p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
