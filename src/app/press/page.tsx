@@ -1,9 +1,9 @@
 "use client";
 
 const photos = [
-  { gradient: "linear-gradient(160deg, #c8a87a 0%, #9a7850 100%)", rot: -1.2 },
-  { gradient: "linear-gradient(160deg, #c4a882 0%, #9a8060 100%)", rot:  0.7 },
-  { gradient: "linear-gradient(160deg, #a8906a 0%, #7a6040 100%)", rot: -0.5 },
+  { src: "/images/press-1.jpg", gradient: "linear-gradient(160deg, #c8a87a 0%, #9a7850 100%)", rot: -1.2 },
+  { src: "/images/press-2.jpg", gradient: "linear-gradient(160deg, #c4a882 0%, #9a8060 100%)", rot:  0.7 },
+  { src: "/images/press-3.jpg", gradient: "linear-gradient(160deg, #a8906a 0%, #7a6040 100%)", rot: -0.5 },
 ];
 
 const coverage = [
@@ -41,11 +41,10 @@ export default function PressPage() {
                 onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.transform = "rotate(0deg) translateY(-6px)"; el.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1), 0 12px 32px rgba(0,0,0,0.2), 0 24px 60px rgba(0,0,0,0.14)"; }}
                 onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.transform = `rotate(${p.rot}deg)`; el.style.boxShadow = "0 2px 4px rgba(0,0,0,0.08), 0 6px 20px rgba(0,0,0,0.14), 0 16px 40px rgba(0,0,0,0.1)"; }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={p.src} alt={`Press photo ${i + 1}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
                 <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0,0,0,0.42) 100%)", pointerEvents: "none" }} />
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(to bottom, rgba(255,255,255,0.06), transparent)", pointerEvents: "none" }} />
-                <div style={{ position: "absolute", bottom: 12, left: 0, right: 0, textAlign: "center", fontFamily: "'Courier New', monospace", fontSize: "0.48rem", color: "rgba(240,237,232,0.22)", letterSpacing: "0.1em" }}>
-                  /images/press-{i + 1}.jpg
-                </div>
               </div>
             ))}
           </div>

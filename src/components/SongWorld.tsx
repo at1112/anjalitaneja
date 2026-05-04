@@ -7,6 +7,7 @@ interface Song {
   year?: string;
   coverColor: string;
   coverGradient?: string;
+  imageUrl?: string;
   story: string;
   spotifyUrl: string;
   videoUrl?: string;
@@ -54,6 +55,10 @@ export default function SongWorld({ song, onClose }: { song: Song; onClose: () =
               </div>
             ) : (
               <div style={{ width: "100%", aspectRatio: "1/1", background: song.coverGradient || song.coverColor, borderRadius: 2, position: "relative", overflow: "hidden", boxShadow: "0 8px 60px rgba(0,0,0,0.7)" }}>
+                {song.imageUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={song.imageUrl} alt={song.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                )}
                 <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0,0,0,0.38) 100%)" }} />
               </div>
             )}

@@ -10,6 +10,7 @@ const songs = [
     year: "2024",
     coverColor: "#c4956a",
     coverGradient: "linear-gradient(135deg, #c4956a 0%, #a07050 100%)",
+    imageUrl: "/images/my-side.jpg",
     story: "A",
     spotifyUrl: "https://open.spotify.com/track/2acl3sdl3Pdp4LUw72nol1",
   },
@@ -19,6 +20,7 @@ const songs = [
     year: "2024",
     coverColor: "#d4a855",
     coverGradient: "linear-gradient(135deg, #d4a855 0%, #b88830 100%)",
+    imageUrl: "/images/golden-linings.jpg",
     story: "B",
     spotifyUrl: "https://open.spotify.com/track/6hm4HEbg2VQGmRubQC7Ly3",
   },
@@ -28,6 +30,7 @@ const songs = [
     year: "2023",
     coverColor: "#8b6944",
     coverGradient: "linear-gradient(135deg, #8b6944 0%, #6a5030 100%)",
+    imageUrl: "/images/forever-you.jpg",
     story: "C",
     spotifyUrl: "https://open.spotify.com/track/4bUxpM2lK4xzMrqFxS8wGi",
     videoUrl: "https://www.youtube.com/watch?v=CkdaoWhwkLY",
@@ -104,11 +107,12 @@ export default function AboutPage() {
 
               <div style={{ display: "flex", flexWrap: "wrap", borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a", backgroundColor: "#eae7e0" }}>
                 <div style={{ width: "clamp(140px, 40%, 280px)", minHeight: 300, flexShrink: 0, position: "relative", overflow: "hidden", background: "linear-gradient(160deg, #8a8888 0%, #5a5858 60%, #3a3838 100%)", borderRight: "1px solid #2a2a2a" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/hero.jpg" alt="Anjali Taneja" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
                   <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0,0,0,0.4) 100%)" }} />
                   {[{ top: 8, left: 8 }, { top: 8, right: 8 }, { bottom: 8, left: 8 }, { bottom: 8, right: 8 }].map((pos, i) => (
                     <div key={i} style={{ position: "absolute", ...pos, width: 12, height: 12, borderTop: i < 2 ? "1px solid rgba(255,255,255,0.18)" : undefined, borderBottom: i >= 2 ? "1px solid rgba(255,255,255,0.18)" : undefined, borderLeft: i % 2 === 0 ? "1px solid rgba(255,255,255,0.18)" : undefined, borderRight: i % 2 === 1 ? "1px solid rgba(255,255,255,0.18)" : undefined }} />
                   ))}
-                  <div style={{ position: "absolute", bottom: 14, left: 14, fontFamily: "'Courier New', monospace", fontSize: "0.5rem", color: "rgba(240,237,232,0.3)", letterSpacing: "0.12em" }}>/images/hero.jpg</div>
                 </div>
 
                 <div style={{ flex: 1, minWidth: 200, display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(1.5rem,5vw,3rem) clamp(1.5rem,5vw,3.5rem)", gap: "1.75rem" }}>
@@ -167,8 +171,9 @@ More than an artist, Anjali is building a sonic and visual world rooted in ident
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "rotate(0deg) translateY(-6px)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = `rotate(${cardRotations[idx]}deg)`; }}>
                   <div style={{ width: "100%", aspectRatio: "1/1", background: song.coverGradient, borderRadius: 2, marginBottom: "0.875rem", position: "relative", overflow: "hidden", boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.18)" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={song.imageUrl} alt={song.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
                     <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0,0,0,0.32) 100%)" }} />
-                    <div style={{ position: "absolute", bottom: 8, right: 10, fontFamily: "'Courier New', monospace", fontSize: "0.48rem", color: "rgba(240,237,232,0.22)", letterSpacing: "0.1em" }}>/images/{song.id}.jpg</div>
                   </div>
                   <div style={{ fontSize: "0.8125rem", fontWeight: 400, letterSpacing: "0.03em", color: "var(--foreground)", marginBottom: "0.2rem" }}>{song.title}</div>
                   <div style={{ fontSize: "0.62rem", fontWeight: 300, color: "var(--muted)", letterSpacing: "0.08em", opacity: 0.6 }}>{song.year} · tap to explore</div>
