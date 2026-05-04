@@ -121,12 +121,12 @@ export default function AboutPage() {
                     <div style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)", fontWeight: 500, color: "var(--accent)", letterSpacing: "-0.02em" }}>taneja</div>
                   </div>
                   <div style={{ width: "2rem", height: 2, backgroundColor: "var(--accent)", opacity: 0.5 }} />
-                  <p style={{ fontSize: "0.8125rem", lineHeight: 1.9, fontWeight: 300, opacity: 0.65, maxWidth: "28ch", margin: 0 }}>
-                    Anjali Taneja is part of a new wave of global R&B artists, blending jazz-trained musicianship with vintage soul and modern R&B. Based in New York City, her sound is defined by velvety vocals, emotional storytelling, and a refined musical sensibility.
-Drawing inspiration from Etta James to Sade, Anjali creates music that feels both timeless and deeply personal. Her recent releases, including “Forever You,” “Keepsake,” and “Golden Linings” build a rich, immersive sonic world. 
-She first gained attention with “Only Love” alongside Pav Dharia, and has since landed on major Spotify editorial playlists like Fresh Finds and New Music Friday. With over 1M streams and a steadily growing audience, Anjali has performed at iconic venues including Terminal 5 and the Kennedy Center Millennium Stage, and toured with Red Baraat. 
-More than an artist, Anjali is building a sonic and visual world rooted in identity, nostalgia, and emotional depth, inviting listeners to step inside and grow with her as the story unfolds.
-
+                    <div style={{ fontSize: "0.8125rem", lineHeight: 1.85, fontWeight: 300, opacity: 0.65, display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+                    <p style={{ margin: 0 }}>Anjali Taneja is part of a new wave of global R&B artists, blending jazz-trained musicianship with vintage soul and modern R&B. Based in New York City, her sound is defined by velvety vocals, emotional storytelling, and a refined musical sensibility.</p>
+                    <p style={{ margin: 0 }}>Drawing inspiration from Etta James to Sade, Anjali creates music that feels both timeless and deeply personal. Her recent releases, including &ldquo;Forever You,&rdquo; &ldquo;Keepsake,&rdquo; and &ldquo;Golden Linings&rdquo; build a rich, immersive sonic world.</p>
+                    <p style={{ margin: 0 }}>She first gained attention with &ldquo;Only Love&rdquo; alongside Pav Dharia, and has since landed on major Spotify editorial playlists like Fresh Finds and New Music Friday. With over 1M streams and a steadily growing audience, Anjali has performed at iconic venues including Terminal 5 and the Kennedy Center Millennium Stage, and toured with Red Baraat.</p>
+                    <p style={{ margin: 0 }}>More than an artist, Anjali is building a sonic and visual world rooted in identity, nostalgia, and emotional depth, inviting listeners to step inside and grow with her as the story unfolds.</p>
+                  </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
                     {[
                       { href: "https://open.spotify.com/artist/1A7CIDrLklSiVgGJjdhdDX",        icon: <SpotifyIcon />,    label: "Spotify" },
