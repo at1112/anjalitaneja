@@ -10,7 +10,7 @@ const songs = [
     year: "2024",
     coverColor: "#c4956a",
     coverGradient: "linear-gradient(135deg, #c4956a 0%, #a07050 100%)",
-    story: "A late-night letter to someone who never picked up the phone. Written in one sitting, the melody came first — a soft descending line that felt like the hour between 2 and 3 AM when everything becomes clear and nothing matters at all.",
+    story: "A",
     spotifyUrl: "https://open.spotify.com/",
   },
   {
@@ -19,7 +19,7 @@ const songs = [
     year: "2024",
     coverColor: "#d4a855",
     coverGradient: "linear-gradient(135deg, #d4a855 0%, #b88830 100%)",
-    story: "About finding warmth in the ordinary — a Sunday morning, the smell of chai, the particular light that falls through old curtains. It started as a voice memo hummed into my phone on a train and grew into something I didn't expect.",
+    story: "B",
     spotifyUrl: "https://open.spotify.com/",
   },
   {
@@ -28,7 +28,7 @@ const songs = [
     year: "2023",
     coverColor: "#8b6944",
     coverGradient: "linear-gradient(135deg, #8b6944 0%, #6a5030 100%)",
-    story: "The one that took three years to finish. Every time I got close to it I had to put it down. It's the most honest thing I've recorded — about love that outlasts the person, the version of someone you carry long after they've moved on.",
+    story: "C",
     spotifyUrl: "https://open.spotify.com/",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
   },
