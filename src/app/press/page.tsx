@@ -94,7 +94,7 @@ export default function PressPage() {
               For press inquiries, sync licensing, and booking, reach out directly.
             </p>
             <a
-              href="mailto:hello@anjalitaneja.com"
+              href="mailto:mgmt.anjali@gmail.com"
               style={{ fontSize: "0.875rem", fontWeight: 400, color: "var(--accent)", textDecoration: "none", transition: "opacity 0.2s" }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.6")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
