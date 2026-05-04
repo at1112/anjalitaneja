@@ -7,10 +7,10 @@ const photos = [
 ];
 
 const coverage = [
-  { publication: "The FADER",        headline: "Anjali Taneja's debut is everything indie R&B needed right now",     url: "#" },
-  { publication: "Ones To Watch",    headline: "The 10 artists you need to hear this month",                         url: "#" },
-  { publication: "NME",              headline: "Golden Linings is a breakthrough moment, delicate and devastating",  url: "#" },
-  { publication: "Pigeons & Planes", headline: "Her voice carries a warmth that doesn't ask for anything in return", url: "#" },
+  { publication: "a",        headline: "a",     url: "#" },
+  { publication: "b",    headline: "b",                         url: "#" },
+  { publication: "c",              headline: "c",  url: "#" },
+  { publication: "d", headline: "d", url: "#" },
 ];
 
 function SectionLabel({ children }: { children: string }) {
