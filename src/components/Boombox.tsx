@@ -26,12 +26,32 @@ const KNOB_DEFS = [
 function valToAngle(v: number) { return -135 + (v / 100) * 270; }
 
 function Knob({ def, value, onChange }: { def: typeof KNOB_DEFS[number]; value: number; onChange: (v: number) => void }) {
-  const drag = useRef<{ y: number; val: number } | null>(null);
-
   const angle = valToAngle(value);
   const rad   = ((angle - 90) * Math.PI) / 180;
   const dotX  = def.cx + 7 * Math.cos(rad);
   const dotY  = def.cy + 7 * Math.sin(rad);
+
+  // Works in Safari: use mouse+touch events instead of pointer events.
+  // Handlers live on a concrete <circle> with a near-zero fill so it's
+  // always hittable. Window-level move/end listeners track the drag
+  // even after the finger/cursor leaves the element.
+  function startDrag(startClientY: number) {
+    const startVal = value;
+    const onMove = (ev: MouseEvent | TouchEvent) => {
+      const y = "touches" in ev ? ev.touches[0].clientY : (ev as MouseEvent).clientY;
+      onChange(Math.min(100, Math.max(0, Math.round(startVal + (startClientY - y) * 0.9))));
+    };
+    const onEnd = () => {
+      window.removeEventListener("mousemove",  onMove as EventListener);
+      window.removeEventListener("mouseup",    onEnd);
+      window.removeEventListener("touchmove",  onMove as EventListener);
+      window.removeEventListener("touchend",   onEnd);
+    };
+    window.addEventListener("mousemove",  onMove as EventListener);
+    window.addEventListener("mouseup",    onEnd);
+    window.addEventListener("touchmove",  onMove as EventListener, { passive: false });
+    window.addEventListener("touchend",   onEnd);
+  }
 
   return (
     <g style={{ cursor: "ns-resize" }}>
@@ -55,35 +75,12 @@ function Knob({ def, value, onChange }: { def: typeof KNOB_DEFS[number]; value: 
       <ellipse cx={def.cx-2.5} cy={def.cy-2.5} rx={3} ry={2} fill="rgba(255,255,255,0.22)" transform={`rotate(-30,${def.cx},${def.cy})`} />
       <text x={def.cx} y={def.cy+16} textAnchor="middle" fontFamily="'Courier New',monospace" fontSize="4.5" fill="#5a3a18" opacity="0.75">{def.label}</text>
 
-      {/*
-        HIT CIRCLE — near-zero alpha fill + pointerEvents:all makes the full circle
-        hittable in every browser. Window listeners (not onPointerMove on the element)
-        track the drag even when the pointer leaves the circle — this is what Safari
-        requires since setPointerCapture on SVG elements is unreliable there.
-      */}
       <circle
         cx={def.cx} cy={def.cy} r={13}
-        fill="rgba(0,0,0,0.001)"
-        style={{ pointerEvents: "all", touchAction: "none" }}
-        onPointerDown={(e) => {
-          e.preventDefault();
-          const startY   = e.clientY;
-          const startVal = value;
-          drag.current   = { y: startY, val: startVal };
-
-          const onMove = (ev: PointerEvent) => {
-            if (!drag.current) return;
-            const v = Math.min(100, Math.max(0, Math.round(startVal + (startY - ev.clientY) * 0.9)));
-            onChange(v);
-          };
-          const onUp = () => {
-            drag.current = null;
-            window.removeEventListener("pointermove", onMove);
-            window.removeEventListener("pointerup",   onUp);
-          };
-          window.addEventListener("pointermove", onMove);
-          window.addEventListener("pointerup",   onUp);
-        }}
+        fill="rgba(0,0,0,0.01)"
+        style={{ pointerEvents: "all", touchAction: "none", WebkitTapHighlightColor: "transparent" } as React.CSSProperties}
+        onMouseDown={(e) => { e.preventDefault(); startDrag(e.clientY); }}
+        onTouchStart={(e) => { e.preventDefault(); startDrag(e.touches[0].clientY); }}
       />
     </g>
   );
@@ -136,7 +133,7 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
     <div className="w-full max-w-2xl mx-auto select-none"
          style={{ filter: "drop-shadow(0 18px 48px rgba(42,24,8,0.35))" }}>
     <svg viewBox="0 0 660 430" xmlns="http://www.w3.org/2000/svg"
-      style={{ width: "100%", display: "block", touchAction: "none" }}>
+      style={{ width: "100%", display: "block" }}>
       <defs>
         {/* ── Body gradients ── */}
         <linearGradient id="bodyFront" x1="0" y1="0" x2="0" y2="1">
@@ -511,8 +508,6 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
       {(["◀◀","◀","▶","▶▶","■"] as const).map((label, i) => {
         const pressed = pressedBtn === i;
         const dy = pressed ? 2 : 0;
-        // onClick works in all browsers including Safari on SVG elements;
-        // onPointerDown/Up are only for the visual press state, no setPointerCapture needed
         const actions = [
           () => { onPrev?.(); onPrev?.(); },
           () => onPrev?.(),
@@ -521,17 +516,26 @@ export default function Boombox({ frequency, needlePercent, playing, onKnobChang
           () => onStop?.(),
         ];
         return (
-          <g key={i} style={{ cursor: "pointer" }}
-            onClick={() => actions[i]?.()}
-            onPointerDown={() => setPressed(i)}
-            onPointerUp={() => setPressed(null)}
-            onPointerLeave={() => setPressed(null)}
-          >
+          <g key={i}>
+            {/* visuals */}
             {!pressed && <rect x={271+i*24} y="308" width="20" height="14" rx="2.5" fill="rgba(0,0,0,0.3)" />}
             <rect x={270+i*24} y={305+dy} width="20" height="14" rx="2.5" fill="#a09040" />
-            <rect x={271+i*24} y={305+dy} width="18" height="5" rx="2" fill={pressed ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.2)"} />
-            <rect x={271+i*24} y={307+dy} width="18" height="10" rx="2" fill={pressed ? "#8a7830" : "#b8a850"} />
+            <rect x={271+i*24} y={305+dy} width="18" height="5"  rx="2"   fill={pressed ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.2)"} />
+            <rect x={271+i*24} y={307+dy} width="18" height="10" rx="2"   fill={pressed ? "#8a7830" : "#b8a850"} />
             <text x={280+i*24} y={314+dy} textAnchor="middle" dominantBaseline="middle" fontSize="5.5" fill="#3a2808" opacity="0.85">{label}</text>
+            {/* hit rect — concrete SVG element with fill, works in Safari.
+                Both onClick and onTouchEnd so tap registers on all devices. */}
+            <rect
+              x={269+i*24} y={303} width={24} height={20} rx="2.5"
+              fill="rgba(0,0,0,0.01)"
+              style={{ pointerEvents: "all", cursor: "pointer", WebkitTapHighlightColor: "transparent" } as React.CSSProperties}
+              onClick={() => actions[i]?.()}
+              onTouchEnd={(e) => { e.preventDefault(); actions[i]?.(); }}
+              onMouseDown={() => setPressed(i)}
+              onMouseUp={() => setPressed(null)}
+              onMouseLeave={() => setPressed(null)}
+              onTouchStart={() => setPressed(i)}
+            />
           </g>
         );
       })}
